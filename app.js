@@ -333,10 +333,31 @@ function handleModalSubmit(e) {
   const time = document.getElementById('modalTime').value;
   const notes = document.getElementById('modalNotes').value.trim();
 
-  const msg = `Hello CA Ashok Aghav & Team,%0A%0AI would like to schedule a consultation with your firm:%0A• *Client Name:* ${encodeURIComponent(name)}%0A• *Phone:* ${encodeURIComponent(phone)}%0A• *Service Required:* ${encodeURIComponent(service)}%0A• *Preferred Mode:* ${encodeURIComponent(mode)}%0A• *Preferred Slot:* ${encodeURIComponent(time)}%0A${notes ? `• *Details:* ${encodeURIComponent(notes)}%0A` : ''}%0APlease confirm the appointment slot. Thank you!`;
+  const lines = [
+    'Hello CA Ashok Aghav Sir,',
+    '',
+    'I would like to schedule a consultation with your firm. Here are my details:',
+    '',
+    `Name: ${name}`,
+    `Phone: ${phone}`,
+    `Service Required: ${service}`,
+    `Consultation Mode: ${mode}`,
+    `Preferred Time Slot: ${time}`
+  ];
+
+  if (notes) {
+    lines.push(`Query / Details: ${notes}`);
+  }
+
+  lines.push('');
+  lines.push('Please let me know your availability.');
+  lines.push('Thank you.');
+
+  const fullMsg = lines.join('\n');
+  const waUrl = `https://wa.me/917798775647?text=${encodeURIComponent(fullMsg)}`;
 
   closeBookingModal();
-  window.open(`https://wa.me/917798775647?text=${msg}`, '_blank');
+  window.open(waUrl, '_blank');
 }
 
 // Page Contact Form Submit
@@ -353,9 +374,28 @@ function handleFormSubmit(e) {
   const successBox = document.getElementById('formSuccessMessage');
   const directLink = document.getElementById('directWaSuccessLink');
 
-  const msg = `Hello CA Ashok Aghav sir & Salman,%0A%0ANew inquiry from website appointment form:%0A• *Name:* ${encodeURIComponent(name)}%0A• *Phone:* ${encodeURIComponent(phone)}%0A• *Service:* ${encodeURIComponent(service)}%0A• *Mode:* ${encodeURIComponent(mode)}%0A• *Date:* ${encodeURIComponent(date || 'As soon as possible')}%0A${details ? `• *Message:* ${encodeURIComponent(details)}%0A` : ''}%0ALooking forward to your guidance.`;
+  const lines = [
+    'Hello CA Ashok Aghav Sir,',
+    '',
+    'I would like to schedule a consultation with your firm. Here are my details:',
+    '',
+    `Name: ${name}`,
+    `Phone: ${phone}`,
+    `Service Required: ${service}`,
+    `Preferred Mode: ${mode}`,
+    `Preferred Date: ${date || 'Flexible / Earliest available'}`
+  ];
 
-  const waUrl = `https://wa.me/917798775647?text=${msg}`;
+  if (details) {
+    lines.push(`Query / Details: ${details}`);
+  }
+
+  lines.push('');
+  lines.push('Looking forward to your response.');
+  lines.push('Thank you.');
+
+  const fullMsg = lines.join('\n');
+  const waUrl = `https://wa.me/917798775647?text=${encodeURIComponent(fullMsg)}`;
 
   if (directLink) directLink.href = waUrl;
   if (formEl) formEl.style.display = 'none';
@@ -364,7 +404,7 @@ function handleFormSubmit(e) {
   // Open WhatsApp in new tab automatically
   setTimeout(() => {
     window.open(waUrl, '_blank');
-  }, 600);
+  }, 400);
 }
 
 /* ==========================================================================
